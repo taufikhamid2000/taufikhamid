@@ -1,4 +1,4 @@
-# taufik-portfolio
+# taufikhamid
 
 Personal portfolio and project showcase for Taufik Hamid, plus a small owner-only CMS and a bilingual "Vision for Malaysia" planning section.
 
