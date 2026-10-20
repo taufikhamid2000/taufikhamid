@@ -2,7 +2,7 @@
 
 Personal portfolio and project showcase for Taufik Hamid, plus a small owner-only CMS and a bilingual "Vision for Malaysia" planning section.
 
-Live: https://taufik.vercel.app
+Live: https://taufikhamid.com
 
 Stack: Next.js 16.3 (App Router, Server Actions) + React 18 + TypeScript 5 + Tailwind CSS 3, backed by Supabase (Postgres with Row Level Security, Auth). Deployed on Vercel. Requires Node >= 24 (`engines` in `package.json`).
 
@@ -80,4 +80,4 @@ docs/REPOSITORY_AUDIT.md    cross-repo audit (May 2026) + status updates
 
 ## Deployment
 
-Hosted on Vercel; every push to `main` auto-deploys to https://taufik.vercel.app. Set the environment variables above in the Vercel project (only `ANTHROPIC_API_KEY` is secret). Supabase Auth redirect URLs for production and localhost are listed in `supabase/config.toml` and must match the hosted project's Auth settings.
+Hosted on Vercel; every push to `main` auto-deploys to https://taufikhamid.com. Set the environment variables above in the Vercel project (only `ANTHROPIC_API_KEY` is secret). Supabase Auth redirect URLs for production and localhost are listed in `supabase/config.toml` and must match the hosted project's Auth settings.

@@ -24,7 +24,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-const SITE_URL = "https://taufik.vercel.app";
+const SITE_URL = "https://taufikhamid.com";
 const SITE_TITLE = "Muhammad Taufik — Full-stack Developer";
 const SITE_DESCRIPTION =
   "Portfolio of Muhammad Taufik, a full-stack developer in Malaysia building web, API and mobile products with Next.js, ASP.NET Core, Supabase and Kotlin.";
