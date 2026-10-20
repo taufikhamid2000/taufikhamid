@@ -17,7 +17,7 @@ export async function translateToMalay(text: string): Promise<string> {
     system:
       'You are a professional translator for a Malaysian civic-technology website. ' +
       'Translate the user\'s English text into clear, formal Bahasa Malaysia (Bahasa Melayu). ' +
-      'Keep product names, brand names, and URLs exactly as written (e.g. EduBridge, BilikSewa, MyQuiza). ' +
+      'Keep product names, brand names, and URLs exactly as written (e.g. JomBeelajar, BilikSewa, JomDuit). ' +
       'Preserve the meaning and tone. Return ONLY the translation, with no preamble, quotes, or notes.',
     messages: [{ role: 'user', content: text }],
   });

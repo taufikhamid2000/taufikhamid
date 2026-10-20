@@ -20,14 +20,14 @@ const props = {
 
 const icons: Record<string, ReactNode> = {
   // Graduation cap
-  EduBridge: (
+  JomBeelajar: (
     <svg {...props}>
       <path d="M2 9l10-5 10 5-10 5-10-5Z" />
       <path d="M6 11.5V16c0 1.5 2.5 3 6 3s6-1.5 6-3v-4.5" />
     </svg>
   ),
   // Server rack (backend API)
-  MyQuiza: (
+  'JomBeelajar API': (
     <svg {...props}>
       <rect x="4" y="4" width="16" height="6" rx="1" />
       <rect x="4" y="14" width="16" height="6" rx="1" />
@@ -35,7 +35,7 @@ const icons: Record<string, ReactNode> = {
     </svg>
   ),
   // Mobile phone
-  Syllabuzz: (
+  'JomBeelajar Android': (
     <svg {...props}>
       <rect x="7" y="2" width="10" height="20" rx="2" />
       <path d="M11 18h2" />
@@ -58,7 +58,7 @@ const icons: Record<string, ReactNode> = {
     </svg>
   ),
   // Numbered queue ticket
-  MyBeratur: (
+  JomBeratur: (
     <svg {...props}>
       <path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 0 0 6v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-6V6Z" />
       <path d="M13 9v6" />
@@ -149,14 +149,14 @@ const icons: Record<string, ReactNode> = {
     </svg>
   ),
   // Coin (finance)
-  DuitDuit: (
+  JomDuit: (
     <svg {...props}>
       <circle cx="12" cy="12" r="9" />
       <path d="M12 7v10M9.5 9.5c0-1.4 1.1-2.2 2.5-2.2s2.5.7 2.5 1.8c0 2.4-5 1.4-5 3.8 0 1.1 1.1 1.8 2.5 1.8s2.5-.8 2.5-2.2" />
     </svg>
   ),
   // Bus/shuttle
-  TongTong: (
+  JomTumpang: (
     <svg {...props}>
       <rect x="3" y="5" width="18" height="12" rx="2" />
       <path d="M3 12h18" />
