@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { createClient } from '../../../lib/supabase/client';
+import { jomIdContinueUrl, SITE_ORIGIN } from '../../../lib/jom-id';
 import { signInAction, signOutAction } from '../admin-actions';
 import ScreenShell from './ScreenShell';
 
@@ -63,6 +64,11 @@ export default function LoginScreen({ isOwner, onBack }: { isOwner: boolean; onB
           <button type="button" className="pes-btn pes-btn--ghost" disabled={pending} onClick={signInWithGoogle}>
             CONTINUE WITH GOOGLE
           </button>
+          <p className="pes-form-or" aria-hidden="true">or</p>
+          {/* Jom ID portal sign-in; returns to the owner-tools screen on the home page. */}
+          <a className="pes-btn pes-btn--ghost" href={jomIdContinueUrl(`${SITE_ORIGIN}/#login`)}>
+            CONTINUE WITH JOM ID
+          </a>
           <a className="pes-form-link" href="/auth/reset-password">
             Forgot password?
           </a>

@@ -1,8 +1,14 @@
 import { type NextRequest } from 'next/server';
 import { updateSession } from './lib/supabase/middleware';
+import { clearLegacyHostCookies } from './lib/supabase/legacy-cookies';
 
 export async function proxy(request: NextRequest) {
-  return await updateSession(request);
+  const response = await updateSession(request);
+  // Jom ID: expire pre-Jom-ID host-only sb-* cookies once per browser.
+  // MUST stay the very last cookie write on the response (it appends raw
+  // Set-Cookie headers that a later response.cookies.set() would wipe).
+  clearLegacyHostCookies(request, response);
+  return response;
 }
 
 export const config = {

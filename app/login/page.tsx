@@ -7,6 +7,7 @@ import { SubmitButton } from '../_components/submit-button';
 import { GoogleSignInButton } from './GoogleSignInButton';
 import { ThemeToggle } from '../_components/theme-toggle';
 import { SITE } from '../../lib/site';
+import { jomIdContinueUrl, SITE_ORIGIN } from '../../lib/jom-id';
 
 interface LoginPageProps {
   searchParams: Promise<{ error?: string; redirect?: string }>;
@@ -18,6 +19,12 @@ interface LoginPageProps {
 // still look like it belongs to the same body of work.
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { error, redirect: redirectTo } = await searchParams;
+  // Same landing spot the password form uses (actions.ts defaults to /#login);
+  // only same-site paths, so ?redirect= can't point Jom ID somewhere else.
+  const jomNextPath =
+    redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//') && !redirectTo.includes('\\')
+      ? redirectTo
+      : '/#login';
 
   return (
     <div className="relative flex min-h-screen flex-col md:flex-row md:items-stretch bg-background text-foreground">
@@ -78,8 +85,15 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             <span className="h-px flex-1 bg-border" />
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 flex flex-col gap-3">
             <GoogleSignInButton />
+            {/* Jom ID portal sign-in; returns to wherever this form would have sent us. */}
+            <a
+              href={jomIdContinueUrl(SITE_ORIGIN + jomNextPath)}
+              className="w-full flex items-center justify-center gap-3 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors text-sm font-medium"
+            >
+              Continue with Jom ID
+            </a>
           </div>
 
           <div className="mt-6 text-xs text-center space-y-2 text-foreground/60">
