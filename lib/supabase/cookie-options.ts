@@ -4,7 +4,7 @@
  * COPY THIS FILE VERBATIM into every Jom app (JomDuit, JomTumpang, JomBeelajar,
  * ...). Every app talks to the same Supabase project, so if they all write the
  * Supabase auth cookies (`sb-<project-ref>-auth-token*`) on the parent domain
- * `.taufikhamid.com`, signing in once at https://akaun.taufikhamid.com signs
+ * `.taufikhamid.com`, signing in once at https://jomid.taufikhamid.com signs
  * you in on every *.taufikhamid.com app, and signing out anywhere signs you out
  * everywhere.
  *

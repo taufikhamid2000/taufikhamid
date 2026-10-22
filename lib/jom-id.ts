@@ -1,5 +1,5 @@
 /** Jom ID portal (shared Supabase session across *.taufikhamid.com). */
-export const JOM_ID_URL = 'https://akaun.taufikhamid.com';
+export const JOM_ID_URL = 'https://jomid.taufikhamid.com';
 
 /** Canonical origin of this site — Jom ID only returns to taufikhamid.com hosts. */
 export const SITE_ORIGIN = 'https://taufikhamid.com';
