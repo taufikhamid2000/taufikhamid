@@ -15,6 +15,20 @@ Stack: Next.js 16.3 (App Router, Server Actions) + React 18 + TypeScript 5 + Tai
 
 Other bits: `proxy.ts` (Next 16's middleware equivalent) refreshes the Supabase session on every request; `app/sitemap.ts` and `app/robots.ts` generate SEO files from `lib/site-url.ts`; light/dark/system theme is a cookie set by `app/actions/theme.ts`.
 
+## Screenshots
+
+![Portfolio home page, desktop](docs/screenshots/home-desktop.png)
+
+![Vision for Malaysia overview, desktop](docs/screenshots/vision-desktop.png)
+
+<img src="docs/screenshots/home-mobile.png" alt="Portfolio home page, mobile" width="280">
+
+## AI translation pipeline
+
+`lib/translate.ts` (`server-only`) exports `translateToMalay(text)`, which sends the text to Claude Haiku 4.5 (`claude-haiku-4-5`) through `@anthropic-ai/sdk`, with a system prompt asking for formal Bahasa Malaysia, product/brand names and URLs kept verbatim, and the translation returned with no preamble. Empty input is returned as-is; the key comes from `ANTHROPIC_API_KEY`.
+
+It is called only from `translateMissingAction` in `app/pes/admin-actions.ts`. That action checks `getIsOwner()` before anything else (it spends paid API credits), then finds `ministries` rows missing `name_ms`/`description_ms` and `initiatives` rows missing `problem_ms`/`idea_ms`, translates just the missing fields, and writes them back to Supabase. It then revalidates `/ms/vision` and `/`, and returns the count of rows updated; a missing API key is reported as a readable error.
+
 ## Local development
 
 ```bash
