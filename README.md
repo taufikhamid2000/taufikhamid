@@ -38,9 +38,9 @@ AI is used in two places. Claude Haiku translates Vision content into Bahasa Mal
 What I check:
 
 - **Offline translation checker** (`lib/translation-eval.ts`, run with `npm run eval:translations`). Given source/translated pairs it flags empty output, output identical to the source, changed or dropped URLs, placeholders, markup and numbers, product/brand names not kept verbatim, extreme length drift (a rough ratio band, which also catches truncation), and preamble or quote wrapping. It needs no API key and never calls the API. CI runs it on a small fixture set of made-up pairs, some deliberately bad (`scripts/fixtures/translation-pairs.json`), plus unit tests (`npm test`). Pass your own JSON file of pairs to check real output.
-- **Human review.** These are structural checks only. They say nothing about whether the Malay is good. Translations are written to the database by the owner-only "Translate missing" action, and I read them on `/ms/vision` before relying on them. The checker is not yet wired into that action, so it does not block a bad translation from being saved.
+- **Human review.** These are structural checks only. They say nothing about whether the Malay is good. Translations are written to the database by the owner-only "Translate missing" action, and the intended review step is the owner reading them on `/ms/vision` and correcting any bad ones in Supabase. That review is manual and not enforced by the code. The checker is not yet wired into that action, so it does not block a bad translation from being saved.
 - No accuracy figures are claimed; none have been measured.
-- For code, CI (lint, typecheck, tests, build) must pass, and I review diffs before pushing.
+- For code, CI (lint, typecheck, tests, build) must pass, and changes to this repo are pushed straight to `main`, so CI is the safety net rather than a PR review.
 
 ## Local development
 
@@ -86,7 +86,7 @@ app/
   page.tsx, layout.tsx      home page + root layout (SiteShell sidebar, theme)
   _components/              shared UI: Hero, ProjectCardTilt, Reveal, TiltWrapper, ShaderBackground, theme-toggle, ...
   actions/theme.ts          theme cookie Server Action
-  admin/                    CMS: projects CRUD, sprints/, submissions/, translations/
+  pes/                      home-page app + owner Server Actions (projects, sprints, inbox, translate)
   auth/                     Supabase auth callbacks, reset/update password
   login/                    email/password + Google sign-in
   vision/                   Vision for Malaysia (EN): ministries, initiatives, [slug], submit action
@@ -98,7 +98,9 @@ lib/
   supabase/                 server / client / public / middleware clients
   projects.ts, sprints.ts, tasks.ts, vision.ts   typed data access
   i18n.ts, translate.ts     locale strings; Claude-backed EN->BM translation
+  translation-eval.ts       offline checks for translation output (+ .test.ts)
   site.ts, site-url.ts, theme.ts, types.ts
+scripts/                    eval-translations.ts + fixtures
 supabase/
   config.toml               CLI config (project id, auth redirect URLs)
   migrations/               timestamped schema + content migrations
