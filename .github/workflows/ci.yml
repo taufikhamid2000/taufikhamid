@@ -25,6 +25,15 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Translation eval (offline fixtures)
+        run: npm run eval:translations
+
       - name: Build
         run: npm run build
         env:

@@ -9,7 +9,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint app lib proxy.ts"
+    "lint": "eslint app lib scripts proxy.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test lib/translation-eval.test.ts",
+    "eval:translations": "node scripts/eval-translations.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.105.0",

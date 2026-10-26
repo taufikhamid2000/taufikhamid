@@ -1,0 +1,95 @@
+{
+  "_comment": "Fake pairs for testing the checker only. 'expect' lists the issue codes that must be raised ([] = must pass clean). These are not real model outputs.",
+  "pairs": [
+    {
+      "id": "good-plain",
+      "source": "Citizens often wait weeks for a simple licence renewal.",
+      "translated": "Rakyat sering menunggu berminggu-minggu untuk pembaharuan lesen yang mudah.",
+      "expect": []
+    },
+    {
+      "id": "good-urls-numbers-brands",
+      "source": "JomDuit tracks 3 budgets; see https://jomid.taufikhamid.com for 24 hour support.",
+      "translated": "JomDuit menjejaki 3 bajet; lihat https://jomid.taufikhamid.com untuk sokongan 24 jam.",
+      "expect": []
+    },
+    {
+      "id": "good-markup-placeholder",
+      "source": "Hello {name}, your **BilikSewa** listing is live.",
+      "translated": "Helo {name}, senarai **BilikSewa** anda sudah aktif.",
+      "expect": []
+    },
+    {
+      "id": "bad-empty",
+      "source": "Digitise paper forms at the district office.",
+      "translated": "   ",
+      "expect": ["empty_output"]
+    },
+    {
+      "id": "bad-identical",
+      "source": "Digitise paper forms at the district office.",
+      "translated": "Digitise paper forms at the district office.",
+      "expect": ["identical_to_source"]
+    },
+    {
+      "id": "bad-dropped-url",
+      "source": "Read more at https://example.com/report before the meeting.",
+      "translated": "Baca lebih lanjut sebelum mesyuarat.",
+      "expect": ["url_mismatch"]
+    },
+    {
+      "id": "bad-altered-url",
+      "source": "Apply online at https://example.com/apply today please.",
+      "translated": "Mohon dalam talian di https://example.com/mohon hari ini.",
+      "expect": ["url_mismatch"]
+    },
+    {
+      "id": "bad-changed-number",
+      "source": "The pilot covers 120 schools across 14 districts.",
+      "translated": "Projek perintis meliputi 210 sekolah di 14 daerah.",
+      "expect": ["number_mismatch"]
+    },
+    {
+      "id": "bad-dropped-placeholder",
+      "source": "Welcome back, {{user}}! You have %d new messages.",
+      "translated": "Selamat kembali! Anda mempunyai mesej baharu.",
+      "expect": ["placeholder_mismatch"]
+    },
+    {
+      "id": "bad-dropped-markup",
+      "source": "Click <strong>Submit</strong> to send your `idea` now.",
+      "translated": "Klik Hantar untuk menghantar idea anda sekarang.",
+      "expect": ["markup_mismatch"]
+    },
+    {
+      "id": "bad-translated-brand",
+      "source": "BilikSewa helps students find rooms near campus.",
+      "translated": "Sewa Bilik membantu pelajar mencari bilik berhampiran kampus.",
+      "expect": ["protected_term_missing"]
+    },
+    {
+      "id": "bad-truncated",
+      "source": "The ministry plans to unify scattered student records into a single secure national platform with audit logs and parental access controls.",
+      "translated": "Kementerian merancang untuk",
+      "expect": ["length_drift"]
+    },
+    {
+      "id": "bad-padded",
+      "source": "Short budget tracker for households.",
+      "translated": "Penjejak bajet ringkas untuk isi rumah. Penjejak ini direka supaya mudah digunakan oleh semua orang dalam setiap keluarga di seluruh negara tanpa mengira umur atau latar belakang pendidikan mereka.",
+      "expect": ["length_drift"]
+    },
+    {
+      "id": "bad-preamble",
+      "source": "Rooms near campus, listed by verified owners.",
+      "translated": "Here is the translation: Bilik berhampiran kampus, oleh pemilik disahkan.",
+      "expect": ["wrapper_text"]
+    },
+    {
+      "id": "bad-quoted",
+      "source": "Rooms near campus, listed by verified owners.",
+      "translated": "\"Bilik berhampiran kampus, disenaraikan oleh pemilik yang disahkan.\"",
+      "expect": ["wrapper_text"]
+    }
+  ]
+}
