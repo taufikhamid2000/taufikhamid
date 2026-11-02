@@ -10,7 +10,7 @@ Stack: Next.js 16 (App Router, Server Actions) + React 18 + TypeScript 5 + Tailw
 
 ## What's in it
 
-- **Public home page** (`app/page.tsx`) — hero, contact links, and project cards read from Supabase `public.projects`. Featured projects are shown as highlights; the rest are collapsed behind "View all projects".
+- **Public home page** (`app/page.tsx`) — loads projects, commits, sprints and Vision data from Supabase and renders the menu-driven "PES-style" app (`app/pes/_components/PesApp.tsx`): About, Projects, Sprints, Vision, Contact, Options. The older page layout lives at `/classic` (`app/classic/page.tsx`): hero, contact links, and an interactive project wheel (`app/_components/ProjectWheel.tsx`) to spin or pick "Surprise me"; `concept` projects are hidden there.
 - **Owner admin** (inside the home-page app, `app/pes/`) — CRUD for project cards, sprint/task planning, moderation of community idea submissions, and a one-click Bahasa Malaysia backfill ("Translate missing" in the Inbox screen). Reads are public; writes are gated to a single owner email. `ADMIN_EMAIL` in `lib/auth.ts` is the app-level check (`requireOwner()` runs at the top of every mutating Server Action) and the same email is hardcoded into every "Admin can write ..." RLS policy in `supabase/migrations/`, so the app and the database cannot drift apart. Login is at `/login` (email/password or Google via Supabase Auth); password reset lives under `app/auth/`.
 - **Vision** (`/vision`, Malay at `/ms/vision`) — public planning pages that map Malaysian government ministries to problems and software ideas. Anyone can submit an idea (anonymous, honeypot-protected, stored as `pending`); it appears only after the owner approves it. UI strings live in `lib/i18n.ts`; content translations are `_ms` columns on `ministries`/`initiatives`, filled by `lib/translate.ts` (Claude Haiku via `@anthropic-ai/sdk`).
 - **InteractiveReflection** (`app/projects/InteractiveReflection/`) — a small self-contained interactive demo (React hooks, keyboard navigation, CSS transitions). The only subproject still embedded in the portfolio; everything else was migrated out to standalone repos in May 2026 (see `docs/REPOSITORY_AUDIT.md`).
@@ -18,6 +18,8 @@ Stack: Next.js 16 (App Router, Server Actions) + React 18 + TypeScript 5 + Tailw
 Other bits: `proxy.ts` (Next 16's middleware equivalent) refreshes the Supabase session on every request; `app/sitemap.ts` and `app/robots.ts` generate SEO files from `lib/site-url.ts`; light/dark/system theme is a cookie set by `app/actions/theme.ts`.
 
 ## Screenshots
+
+These were taken before the PES-style home page. They show the wheel layout, which now lives at `/classic`. They have not been re-shot.
 
 ![Portfolio home page, desktop](docs/screenshots/home-desktop.png)
 
@@ -68,7 +70,7 @@ You can run the public site and admin reads with just the two Supabase variables
 
 ## Data and migrations
 
-All application data lives in the hosted Supabase project (schema `public`): `projects`, `sprints`, `tasks`, `ministries`, `initiatives`, `submissions`. Project cards on the home page are simply rows in `public.projects`; `image_url` is an optional path to a screenshot under `public/screenshots/<slug>.png` (referenced as `/screenshots/<slug>.png`), falling back to a gradient header when null.
+All application data lives in the hosted Supabase project (schema `public`): `projects`, `sprints`, `tasks`, `commits`, `ministries`, `initiatives`, `submissions`. Every Supabase client in `lib/supabase/` sets `db: { schema: 'portfolio' }`, so the app reads the `portfolio` schema (the early migration files still create tables as `public.*`). Projects are rows in `projects`; `image_url` is an optional public URL of an image in the Supabase Storage bucket `project-screenshots` (created in `20260929100000_project_screenshots_bucket.sql`: public read, owner-only write). The owner uploads images from the project editor (`uploadProjectScreenshotAction`), and a one-off owner action (`migrateScreenshotsToStorageAction`) moved the old committed images into the bucket. With no image, the card falls back to a gradient header. There is no `public/screenshots/` directory.
 
 Conventions for `supabase/migrations/`:
 
@@ -83,8 +85,9 @@ Conventions for `supabase/migrations/`:
 
 ```
 app/
-  page.tsx, layout.tsx      home page + root layout (SiteShell sidebar, theme)
-  _components/              shared UI: Hero, ProjectCardTilt, Reveal, TiltWrapper, ShaderBackground, theme-toggle, ...
+  page.tsx, layout.tsx      home page (renders PesApp) + root layout (theme)
+  classic/                  older page layout with the project wheel
+  _components/              shared UI: ProjectWheel, ProjectDetail, ProjectCardTilt, SiteShell, Hero3D, HeroIntro, Reveal, TiltWrapper, ShaderBackground, theme-toggle, ...
   actions/theme.ts          theme cookie Server Action
   pes/                      home-page app + owner Server Actions (projects, sprints, inbox, translate)
   auth/                     Supabase auth callbacks, reset/update password
@@ -92,11 +95,15 @@ app/
   vision/                   Vision for Malaysia (EN): ministries, initiatives, [slug], submit action
   ms/vision/                same pages, Malay locale
   projects/InteractiveReflection/   embedded demo
+  fonts/, icon.svg, globals.css
   robots.ts, sitemap.ts
 lib/
   auth.ts                   ADMIN_EMAIL, getIsOwner(), requireOwner()
   supabase/                 server / client / public / middleware clients
-  projects.ts, sprints.ts, tasks.ts, vision.ts   typed data access
+  projects.ts, sprints.ts, tasks.ts, commits.ts, vision.ts   typed data access
+  commit-sync.ts            GitHub commits -> portfolio.commits (owner-only sync)
+  jom-id.ts                 shared session-cookie helpers (Jom ID)
+  project-status.ts, project-icon.tsx
   i18n.ts, translate.ts     locale strings; Claude-backed EN->BM translation
   translation-eval.ts       offline checks for translation output (+ .test.ts)
   site.ts, site-url.ts, theme.ts, types.ts
@@ -104,7 +111,6 @@ scripts/                    eval-translations.ts + fixtures
 supabase/
   config.toml               CLI config (project id, auth redirect URLs)
   migrations/               timestamped schema + content migrations
-public/screenshots/         project card images referenced by projects.image_url
 types/supabase.d.ts         generated DB types
 proxy.ts                    session-refresh middleware (Next 16 naming)
 docs/REPOSITORY_AUDIT.md    cross-repo audit (May 2026) + status updates

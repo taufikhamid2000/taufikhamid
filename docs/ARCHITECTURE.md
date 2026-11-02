@@ -7,12 +7,13 @@ Written from reading the code; file paths are the source of truth if this drifts
 - `/` (`app/page.tsx`) is a single server component that loads projects, commits, sprints and Vision data (in the visitor's locale) and the owner flag, then renders the client app `app/pes/_components/PesApp.tsx`: a menu-driven "PES-style" UI with screens for About, Projects, Sprints, Vision, Contact, Options and, for the owner, Admin/Inbox. `/pes` just redirects to `/`. If Supabase sends an auth `?code=` to `/`, the page forwards it to `app/auth/confirm`.
 - `/vision/*` (English) and `/ms/vision/*` (Bahasa Malaysia) are separate route trees with the same shape: index, `ministries`, `initiatives`, and `[slug]` per ministry. Locale is therefore part of the URL, not a cookie. UI strings come from `lib/i18n.ts`; content translations are `*_ms` columns.
 - `/login`, `/auth/{confirm,error,reset-password,update-password}` handle Supabase Auth (email/password, Google).
-- `/classic` is the older page layout; `app/sitemap.ts` and `app/robots.ts` generate SEO files (sitemap reads ministry slugs from Supabase).
+- `/classic` is the older page layout (hero, interactive project wheel `app/_components/ProjectWheel.tsx`, contact; `concept` projects hidden); `app/sitemap.ts` and `app/robots.ts` generate SEO files (sitemap reads ministry slugs from Supabase).
 - `proxy.ts` (Next 16's middleware) calls `lib/supabase/middleware.ts` `updateSession` on nearly every request to refresh the Supabase session cookie, then `clearLegacyHostCookies` (must stay last, see the comment in the file).
 
 ## Data layer
 
 - All data is in one hosted Supabase Postgres project, in the custom schema `portfolio` (every client sets `db: { schema: 'portfolio' }`). Tables used in code: `projects`, `sprints`, `tasks`, `commits`, `ministries`, `initiatives`, `submissions`. Schema and content changes are timestamped SQL files in `supabase/migrations/`.
+- Project images: `projects.image_url` holds a public URL in the Supabase Storage bucket `project-screenshots` (`20260929100000_project_screenshots_bucket.sql`; public read, owner-only write). Uploads go through `uploadProjectScreenshotAction` in `app/pes/admin-actions.ts`; `public/screenshots/` no longer exists.
 - Typed access functions live in `lib/` (`projects.ts`, `sprints.ts`, `tasks.ts`, `commits.ts`, `vision.ts`); components do not query Supabase directly.
 - Three Supabase clients in `lib/supabase/`:
   - `server.ts`: cookie-bound client for Server Components and Server Actions (acts as the signed-in user).
