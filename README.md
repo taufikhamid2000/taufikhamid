@@ -21,11 +21,11 @@ Other bits: `proxy.ts` (Next 16's middleware equivalent) refreshes the Supabase 
 
 These were taken before the PES-style home page. They show the wheel layout, which now lives at `/classic`. They have not been re-shot.
 
-![Portfolio home page, desktop](docs/screenshots/home-desktop.png)
+![PES-style title screen of the portfolio home page, desktop](docs/screenshots/home-desktop.png)
 
 ![Vision for Malaysia overview, desktop](docs/screenshots/vision-desktop.png)
 
-<img src="docs/screenshots/home-mobile.png" alt="Portfolio home page, mobile" width="280">
+<img src="docs/screenshots/home-mobile.png" alt="PES-style title screen of the portfolio home page, mobile" width="280">
 
 ## AI translation pipeline
 
