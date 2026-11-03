@@ -45,3 +45,5 @@ next-env.d.ts
 
 # Claude Code local config
 .claude/
+# graphify (local code graph, rebuild with: graphify update .)
+graphify-out/
